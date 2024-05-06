@@ -33,8 +33,8 @@
                 </div>
                 <div class="flex items-center">
                     <div class="flex items-center ms-3">
-                        <div>
-                            <h1 class="font-semibold text-[18px] bg-blue-300 p-4 rounded-[50%]">
+                        <div class="w-12 h-12 bg-blue-300 rounded-[50%] flex items-center justify-center">
+                            <h1 class="font-black text-[18px]">
                                 @php
                                     $name = Auth::user()->name;
                                     $words = explode(' ', $name); // Split the name into an array of words

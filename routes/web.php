@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Page\User\DonationController;
 use App\Http\Controllers\Page\User\HomeController;
 use App\Http\Controllers\Page\User\CartController;
 use App\Http\Controllers\Page\User\OrderController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\Page\User\PaymentController;
 use App\Http\Controllers\Page\Vendor\FoodItemController;
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Donation;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -94,6 +96,22 @@ Route::group(['middleware' => ['auth', 'is.user']], function () {
         return view('pages.user.compare', compact('count', 'foods'));
     });
     Route::get('/fetch-food-data', [HomeController::class, 'food_data']);
+    Route::get('/donation', function (){
+        $count = Cart::where('order_by', Auth::user()->id)
+            ->where('checkout', 0)
+            ->count();
+        $donations = Donation::where('user_id', Auth::user()->id)->get();
+        return view('pages.user.donation', compact('count', 'donations'));
+    });
+    Route::post('/otp/donation', [DonationController::class, 'otp']);
+    Route::post('/pin/donation', function (){
+        $count = Cart::where('order_by', Auth::user()->id)
+            ->where('checkout', 0)
+            ->count();
+        return view('pages.user.donation-amount', compact('count'));
+    });
+    Route::post('/amount/donation', [DonationController::class, 'amount']);
+    Route::post('/paid/donation', [DonationController::class, 'paid']);
 });
 
 Route::group(['middleware' => ['auth', 'is.vendor']], function (){

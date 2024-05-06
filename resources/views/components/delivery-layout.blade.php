@@ -31,16 +31,17 @@
                 </div>
                 <div class="flex items-center">
                     <div class="flex items-center ms-3">
-                        <div>
-                            <h1 class="font-semibold text-[18px] bg-blue-300 p-4 rounded-[50%]">
+                        <div class="w-12 h-12 bg-blue-300 rounded-[50%] flex items-center justify-center">
+                            <h1 class="font-black text-[18px]">
                                 @php
                                     $name = Auth::user()->name;
-                                    $words = explode(' ', $name);
+                                    $words = explode(' ', $name); // Split the name into an array of words
+
                                     $newString = '';
                                     foreach ($words as $word) {
-                                        $newString .= strtoupper(substr($word, 0, 1));
+                                        $newString .= strtoupper(substr($word, 0, 1)); // Take the first letter of each word and convert it to uppercase
                                         if (strlen($newString) >= 2) {
-                                            break;
+                                            break; // Stop if the new string has at least 2 characters
                                         }
                                     }
                                 @endphp
