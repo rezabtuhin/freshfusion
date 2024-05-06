@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -19,9 +20,12 @@ class OrderController extends Controller
                     ->orWhereNull('current_status');
             })
             ->get();
-
-        $receivedOrders = Order::where('vendor', $user)->where('current_status', '!=', 'In Progress')->get();
-
+        $receivedOrders = DB::table('orders')
+                            ->where('vendor', $user)
+                            ->where('current_status', 'Picked')
+                            ->orWhere('current_status', 'Delivered')
+                            ->get();
+//        dd($receivedOrders);
         return view('pages.vendor.order', compact('pendingOrders', 'receivedOrders'));
     }
 

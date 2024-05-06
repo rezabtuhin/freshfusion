@@ -29,7 +29,7 @@
                 </div>
                 <div>
 
-                    <form class="flex items-center max-w-sm mx-auto space-x-2">
+                    <form action="{{ url('/search') }}" method="GET" class="flex items-center max-w-sm mx-auto space-x-2">
                         <div>
                             <select id="countries"
                                     name="category"
@@ -49,7 +49,7 @@
                                           d="M3 5v10M3 5a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm0 10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm12 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm0 0V6a3 3 0 0 0-3-3H9m1.5-2-2 2 2 2"/>
                                 </svg>
                             </div>
-                            <input type="text" id="simple-search"
+                            <input type="text" name="search_text" id="simple-search"
                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                    placeholder="Search food here" required/>
                         </div>
@@ -68,8 +68,8 @@
                 </div>
                 <div class="flex items-center">
                     <div class="flex items-center ms-3">
-                        <div>
-                            <h1 class="font-semibold text-[18px] bg-blue-300 p-4 rounded-[50%]">
+                        <div class="w-12 h-12 bg-blue-300 rounded-[50%] flex items-center justify-center">
+                            <h1 class="font-black text-[18px]">
                                 @php
                                     $name = Auth::user()->name;
                                     $words = explode(' ', $name); // Split the name into an array of words
@@ -130,6 +130,15 @@
                                   clip-rule="evenodd"/>
                         </svg>
                         <span class="flex-1 ms-3 whitespace-nowrap">My Orders</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/compare"
+                       class="{{ $path == 'compare' ? 'bg-gray-50' : ''}} flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                        <svg class="w-6 h-6 text-gray-500 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M10.83 5a3.001 3.001 0 0 0-5.66 0H4a1 1 0 1 0 0 2h1.17a3.001 3.001 0 0 0 5.66 0H20a1 1 0 1 0 0-2h-9.17ZM4 11h9.17a3.001 3.001 0 0 1 5.66 0H20a1 1 0 1 1 0 2h-1.17a3.001 3.001 0 0 1-5.66 0H4a1 1 0 1 1 0-2Zm1.17 6H4a1 1 0 1 0 0 2h1.17a3.001 3.001 0 0 0 5.66 0H20a1 1 0 1 0 0-2h-9.17a3.001 3.001 0 0 0-5.66 0Z"/>
+                        </svg>
+                        <span class="flex-1 ms-3 whitespace-nowrap">Compare Food</span>
                     </a>
                 </li>
                 <li>

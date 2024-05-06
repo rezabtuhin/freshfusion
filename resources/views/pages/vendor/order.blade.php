@@ -1,12 +1,12 @@
 @php use App\Models\Cart; @endphp
 <x-vendor-layout title="Orders">
-    @if(count($pendingOrders) < 1 && count($receivedOrders) < 1)
+    @if((isset($pendingOrders) && count($pendingOrders) < 1) && (isset($receivedOrders) && count($receivedOrders) < 1))
         <div class="relative overflow-x-auto">
             <h1 class="text-2xl text-center font-medium">Nothing to show</h1>
         </div>
     @else
         <div class="relative overflow-x-auto rounded-t-lg ">
-            @if(count($pendingOrders) > 0)
+            @if(isset($pendingOrders) && count($pendingOrders) > 0)
                 <h1 class="font-extrabold text-3xl mb-5">Pending Orders</h1>
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-300 dark:bg-gray-700 dark:text-gray-400">
@@ -121,7 +121,7 @@
                     });
                 </script>
             @endif
-            @if(count($receivedOrders) > 0)
+            @if(isset($receivedOrders) && count($receivedOrders) > 0)
                 <h1 class="font-extrabold text-3xl my-5">Old Orders</h1>
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead class="text-xs text-gray-700 uppercase bg-gray-300 dark:bg-gray-700 dark:text-gray-400">
@@ -161,12 +161,8 @@
                                 </details>
                             </td>
                             <td class="px-6 py-4">
-                                @if($receivedOrder->order_taken_by)
-                                    <p>{{ \App\Models\User::find($pendingOrder->order_taken_by)->name }}</p>
-                                    <p>{{ \App\Models\User::find($pendingOrder->order_taken_by)->phone }}</p>
-                                @else
-                                    -
-                                @endif
+                                <p>{{ \App\Models\User::find($receivedOrder->order_taken_by)->name }}</p>
+                                <p>{{ \App\Models\User::find($receivedOrder->order_taken_by)->phone }}</p>
                             </td>
                             <td class="px-6 py-4">
                                 @if($receivedOrder->current_status == 'Picked')
@@ -175,6 +171,7 @@
                                     Customer received the food.
                                 @endif
                             </td>
+                        </tr>
                     @endforeach
                     </tbody>
                 </table>

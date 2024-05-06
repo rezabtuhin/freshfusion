@@ -43,6 +43,7 @@ Route::middleware('auth')->post('/logout', function (){
 Route::group(['middleware' => ['auth', 'is.user']], function () {
     Route::get('/', [HomeController::class, 'index']);
     Route::get('/food/{food}', [HomeController::class, 'get']);
+    Route::get('/search', [HomeController::class, 'search']);
     Route::POST('/food/add_to_cart', [CartController::class, 'store']);
     Route::get('/my-cart', [CartController::class, 'index']);
     Route::put('/update-cart', [CartController::class, 'update']);
@@ -85,6 +86,14 @@ Route::group(['middleware' => ['auth', 'is.user']], function () {
     });
     Route::get('/my-orders', [OrderController::class, 'index']);
     Route::put('/receive-order', [OrderController::class, 'receive']);
+    Route::get('/compare', function (){
+        $count = Cart::where('order_by', Auth::user()->id)
+            ->where('checkout', 0)
+            ->count();
+        $foods = \App\Models\Food::all();
+        return view('pages.user.compare', compact('count', 'foods'));
+    });
+    Route::get('/fetch-food-data', [HomeController::class, 'food_data']);
 });
 
 Route::group(['middleware' => ['auth', 'is.vendor']], function (){
